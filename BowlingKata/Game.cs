@@ -24,8 +24,7 @@ namespace BowlingKata
     {
         public FrameList()
         {
-            this.Capacity = 10;
-            for (int i = 0; i < this.Capacity; i++)
+            for (int i = 0; i < 10; i++)
             {
                 this.Add(new Frame(i, this));
             }
@@ -36,13 +35,9 @@ namespace BowlingKata
             for (int i = 0; i < this.Count; i++)
             {
                 var frame = this[i];
-                if (frame != null)
-                {
-                    if (!frame.IsCompleted())
-                    {
-                        return frame;
-                    }
-                }
+                if (frame == null) continue;
+                if (frame.IsCompleted()) continue;
+                return frame;
             }
 
             return null;
@@ -79,13 +74,13 @@ namespace BowlingKata
             var firstRollNumberOfPins = 0;
             if (this.firstRoll != null)
             {
-                firstRollNumberOfPins = this.firstRoll.NumberOfPins;
+                firstRollNumberOfPins = this.firstRoll.Pins;
             }
             int secondRollNumberOfPins = 0;
 
             if (this.secondRoll != null)
             {
-                secondRollNumberOfPins = this.secondRoll.NumberOfPins;
+                secondRollNumberOfPins = this.secondRoll.Pins;
             }
             var total = firstRollNumberOfPins + secondRollNumberOfPins;
             if (total == 10)
@@ -98,7 +93,7 @@ namespace BowlingKata
 
         private int FirstRollPins()
         {
-            return this.firstRoll?.NumberOfPins ?? 0;
+            return this.firstRoll?.Pins ?? 0;
         }
 
         public bool IsCompleted()
@@ -109,11 +104,11 @@ namespace BowlingKata
 
     public class Roll
     {
-        public int NumberOfPins { get; }
+        public int Pins { get; }
 
-        public Roll(int numberOfPins)
+        public Roll(int pins)
         {
-            this.NumberOfPins = numberOfPins;
+            this.Pins = pins;
         }
     }
 }
