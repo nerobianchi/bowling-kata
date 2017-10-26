@@ -57,29 +57,35 @@ namespace BowlingKata
         }
 
         [Fact]
-        public void given_first_frame_has_first_roll_is_5_pins_then_score_should_5()
+        public void given_1_roll_has_5_pins_then_score_should_5()
         {
             game.Roll(5);
-            var score = game.Score();
-            score.Should().Be(5);
+            game.Score().Should().Be(5);
         }
 
         [Fact]
-        public void given_first_frame_has_first_roll_is_5_pins_and_second_roll_is_5_pins_then_score_should_10()
+        public void given_2_rolls_has_5_pins_then_score_should_10()
         {
             RollMany(2, 5);
 
-            var score = game.Score();
-            score.Should().Be(10);
+            game.Score().Should().Be(10);
         }
 
         [Fact]
-        public void given_first_frame_has_5_pins_and_5_pins_and_second_frame_has_5_pins_then_score_should_20()
+        public void given_3_rolls_has_5_pins_then_score_should_20()
         {
             RollMany(3, 5);
 
-            var score = game.Score();
-            score.Should().Be(20);
+            game.Score().Should().Be(20);
+        }
+
+        [Fact]
+        public void given_3_roll_has_5_pins_and_1_roll_has_1_then_score_should_21()
+        {
+            RollMany(3, 5);
+            game.Roll(1);
+
+            game.Score().Should().Be(21);
         }
     }
 }
