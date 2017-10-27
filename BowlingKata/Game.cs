@@ -11,7 +11,7 @@ namespace BowlingKata
         {
             Frame currentFrame = frames.CurrentFrame();
 
-            currentFrame.Add(pins);
+            if (currentFrame != null) currentFrame.Add(pins);
         }
 
         public int Score()
@@ -24,10 +24,11 @@ namespace BowlingKata
     {
         public FrameList()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 9; i++)
             {
                 this.Add(new Frame(i, this));
             }
+            this.Add(new TenthFrame(9,this));
         }
 
         public Frame CurrentFrame()
@@ -57,7 +58,7 @@ namespace BowlingKata
             this.frameList = frameList;
         }
 
-        public void Add(int pins)
+        public virtual void Add(int pins)
         {
             if (firstRoll == null)
             {
@@ -85,8 +86,15 @@ namespace BowlingKata
             var total = firstRollNumberOfPins + secondRollNumberOfPins;
             if (total == 10)
             {
-                var frame = this.frameList[this.index + 1];
-                if (frame != null) total += frame.FirstRollPins();
+                if (this.index == 9)
+                {
+                    total += ((TenthFrame) this).ThirdRollPins();
+                }
+                else
+                {
+                    var frame = this.frameList[this.index + 1];
+                    if (frame != null) total += frame.FirstRollPins();
+                }
             }
             return total;
         }
@@ -100,6 +108,26 @@ namespace BowlingKata
         {
             return this.firstRoll != null && this.secondRoll != null;
         }
+    }
+
+    public class TenthFrame:Frame
+    {
+        private Roll thirdRoll;
+
+        public TenthFrame(int index, FrameList frameList) : base(index, frameList)
+        {
+        }
+
+        public override void Add(int pins)
+        {
+            base.Add(pins);
+            if (this.thirdRoll == null)
+            {
+                this.thirdRoll = new Roll(pins);
+            }
+        }
+
+        public int ThirdRollPins() { return this.thirdRoll?.Pins ?? 0; }
     }
 
     public class Roll

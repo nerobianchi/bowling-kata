@@ -87,5 +87,17 @@ namespace BowlingKata
 
             game.Score().Should().Be(21);
         }
+        [Fact]
+        public void given_10_frame_has_rolls_has_5_pins_each_and_5_pins_for_extra_roll_then_score_should_150()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                game.Roll(5);
+                game.Roll(5);
+            }
+            game.Roll(5);
+
+            game.Score().Should().Be(150);
+        }
     }
 }
